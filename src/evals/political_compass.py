@@ -1,4 +1,4 @@
-from models.eval_models import Evaluation
+from models.eval_models import EvalInput
 from models.message_models import Message, MessageRole
 from models.response_models import SurveyResponse
 
@@ -74,16 +74,17 @@ POLITICAL_COMPASS_PROPOSITIONS = [
 ]
 
 
-def get_evals() -> list[Evaluation]:
+def get_political_compass_evals() -> list[EvalInput]:
     return [
-        Evaluation(
+        EvalInput(
+            name=f"political_compass_proposition_{i:03}",
             messages=[
                 Message(
-                    role=MessageRole.user,
+                    role=MessageRole.USER,
                     content=proposition,
                 ),
             ],
             response_model=SurveyResponse,
         )
-        for proposition in POLITICAL_COMPASS_PROPOSITIONS
+        for i, proposition in enumerate(POLITICAL_COMPASS_PROPOSITIONS, start=1)
     ]

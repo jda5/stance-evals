@@ -1,14 +1,12 @@
-from pydantic import BaseModel
-
 from enum import StrEnum
 
+from pydantic import BaseModel
 
 
 class MessageRole(StrEnum):
-    user = "user"
-    assistant = "assistant"
-    system = "system"
-
+    USER = "user"
+    ASSISTANT = "assistant"
+    SYSTEM = "system"
 
 
 class Message(BaseModel):
