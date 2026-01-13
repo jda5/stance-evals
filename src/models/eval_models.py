@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import StrEnum
-from typing import Any
 from uuid import uuid4
 
 from pydantic import BaseModel, Field
@@ -21,7 +20,7 @@ class EvalInput(BaseModel):
 
 class EvalResult(BaseModel):
     input_messages: list[Message]
-    response: type[ResponseFormatT]
+    response: type[ResponseFormatT] | None
     refusal: bool = False
 
 
@@ -30,6 +29,4 @@ class EvalRun(BaseModel):
     created_at: datetime = Field(default_factory=datetime.now())
     model: str
     provider: Provider
-    eval_suite: str
-    results: list[EvalResult] = []
-    metadata: dict[str, Any] = {}  # For temperature, etc.
+    result: EvalResult

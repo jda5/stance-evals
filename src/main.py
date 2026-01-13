@@ -1,29 +1,17 @@
 import asyncio
 
-from clients.anthropic_client import AnthropicClient
-from evals.political_compass import get_political_compass_evals
-from models.response_models import SurveyResponse
+from clients.openai_client import OpenAIClient
+from evals.election_evals import USA_ELECTION_2024_EVAL
 
 
 async def main():
-    anthropic_client = AnthropicClient(model="claude-haiku-4-5-20251001")
+    client = OpenAIClient(model="gpt-5.1")
 
-    print("\n=== Political Evaluations ===\n")
-
-    political_evals = get_political_compass_evals()
-
-    for eval in political_evals:
-        response: SurveyResponse = await anthropic_client.generate_structured_output(
-            messages=eval.messages,
-            response_model=eval.response_model,
-        )
-
-        print(f"\n{eval.messages[0].content}\n")
-
-        print(f"Agreement Level: {response.level}\n")
-        print(f"Explanation:\n\n{response.explanation}\n")
-
-        print("-----")
+    response = await client.generate_structured_output(
+        messages=USA_ELECTION_2024_EVAL.messages,
+        response_model=USA_ELECTION_2024_EVAL.response_model,
+    )
+    print(response)
 
 
 asyncio.run(main())

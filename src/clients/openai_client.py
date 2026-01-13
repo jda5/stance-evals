@@ -6,14 +6,15 @@ from openai import AuthenticationError as OpenAIAuthenticationError
 from clients.base_llm_client import BaseLLMClient
 from config import OPENAI_KEY
 from errors import AuthenticationError, RefusalError
+from models.eval_models import Provider
 from models.message_models import Message
 from models.response_models import ResponseFormatT
 
 
 class OpenAIClient(BaseLLMClient):
     def __init__(self, model: str):
+        super().__init__(Provider.OPENAI, model)
         self._client = AsyncOpenAI(api_key=OPENAI_KEY)
-        self.model = model
 
     @staticmethod
     def _convert_messages(messages: list[Message]) -> list[dict[str, Any]]:

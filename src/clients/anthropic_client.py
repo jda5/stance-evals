@@ -6,14 +6,15 @@ from anthropic import AuthenticationError as AnthropicAuthenticationError
 from clients.base_llm_client import BaseLLMClient
 from config import ANTHROPIC_KEY
 from errors import AuthenticationError, RefusalError
+from models.eval_models import Provider
 from models.message_models import Message
 from models.response_models import ResponseFormatT
 
 
 class AnthropicClient(BaseLLMClient):
     def __init__(self, model: str, betas: list[str] | None = None):
+        super().__init__(Provider.OPENAI, model)
         self._client = Anthropic(api_key=ANTHROPIC_KEY)
-        self.model = model
         self.betas = betas or ["structured-outputs-2025-11-13"]
 
     @staticmethod
